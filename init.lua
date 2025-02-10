@@ -1,2 +1,2 @@
 require("remaps")
-require("config.lazy")
+require("config")

@@ -19,10 +19,11 @@ require("mason-lspconfig").setup({
         "lua_ls",
         "rust_analyzer",
         "gopls",
-        -- "jdtls",
+        "jdtls",
         "ts_ls",
         "tailwindcss",
         "kotlin_language_server",
+        "svelte"
     },
     handlers = {
         function(server_name) -- default handler (optional)
@@ -97,3 +98,28 @@ vim.diagnostic.config({
         prefix = "",
     },
 })
+
+
+
+-- Special configs for certain lsps
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = "*.go",
+    callback = function()
+        vim.lsp.buf.format({ async = false })
+    end,
+})
+
+require("lspconfig").gopls.setup {
+    capabilities = capabilities,
+    settings = {
+        gopls = {
+            gofumpt = true, -- Use gofumpt instead of gofmt
+            staticcheck = true, -- Enable static analysis
+            analyses = {
+                unusedparams = true,
+                shadow = true,
+            },
+        },
+    },
+}

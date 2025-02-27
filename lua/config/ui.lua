@@ -11,4 +11,7 @@ vim.opt.expandtab = true   -- Convert tabs to spaces
 vim.opt.smartindent = true -- Smart auto-indenting
 vim.opt.autoindent = true  -- Copy indent from current line when starting a new one
 
+vim.opt.scrolloff = 8       -- Start vertical scrolling 8 lines before the edge
+vim.opt.sidescrolloff = 8   -- Start horizontal scrolling 8 columns before the edge
+
 return M

@@ -8,3 +8,6 @@ end)
 -- ALTERNATIVE MAPPINGS FOR TELESCOPE
 vim.keymap.set('n', '<leader>l', builtin.git_files, { desc = 'Telescope git files' })
 vim.keymap.set('n', '<leader>l', builtin.find_files, { desc = 'Telescope find files' })
+
+vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
+vim.keymap.set('n', '<leader>fd', builtin.lsp_document_symbols, { desc = 'Telescope document symbols' })

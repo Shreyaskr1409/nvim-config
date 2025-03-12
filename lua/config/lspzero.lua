@@ -23,7 +23,7 @@ require("mason-lspconfig").setup({
         "ts_ls",
         "tailwindcss",
         "kotlin_language_server",
-        "svelte"
+        "svelte",
     },
     handlers = {
         function(server_name) -- default handler (optional)

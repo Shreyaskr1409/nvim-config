@@ -1,6 +1,6 @@
 local M = {}
 
-vim.cmd([[colorscheme oxocarbon]])
+vim.cmd([[colorscheme kanagawa-dragon]])
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.numberwidth = 4

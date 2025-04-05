@@ -24,6 +24,7 @@ require("mason-lspconfig").setup({
         "tailwindcss",
         "kotlin_language_server",
         "svelte",
+        "svls"
     },
     handlers = {
         function(server_name) -- default handler (optional)
@@ -122,4 +123,16 @@ require("lspconfig").gopls.setup {
             },
         },
     },
+}
+
+
+require("lspconfig").svls.setup {
+    capabilities = capabilities,
+    settings = {
+        svls = {
+            trace = { server = "verbose" },
+            lint = { enable = true },
+            format = { enable = true }
+        }
+    }
 }

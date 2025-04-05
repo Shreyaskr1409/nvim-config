@@ -38,6 +38,7 @@ end, { desc = 'Telescope grep string' })
 
 vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
 vim.keymap.set('n', '<leader>fd', builtin.lsp_document_symbols, { desc = 'Telescope document symbols' })
+vim.keymap.set('n', '<leader>fc', builtin.colorscheme, {desc = 'Telescope colorscheme'})
 
 -- Optional: Alternative mappings (remove duplicates)
 vim.keymap.set('n', '<leader>fl', builtin.find_files, { desc = 'Telescope find files (alt)' })

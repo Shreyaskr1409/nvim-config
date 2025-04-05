@@ -115,7 +115,7 @@ local buttons = {
     },
     opts = {
         position = "center",
-        spacing = 1,
+        spacing = 0,
     },
 }
 
@@ -128,9 +128,9 @@ local section = {
 
 local opts = {
     layout = {
-        { type = "padding", val = 3 },
+        { type = "padding", val = 2 },
         section.header,
-        { type = "padding", val = 3 },
+        { type = "padding", val = 2 },
         section.greetHeading,
         { type = "padding", val = 2 },
         section.buttons,

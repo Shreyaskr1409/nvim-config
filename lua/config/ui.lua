@@ -1,7 +1,9 @@
 local M = {}
 
--- vim.cmd([[colorscheme kanagawa-dragon]])
-vim.cmd([[colorscheme kanagawa-paper-ink]])
+vim.cmd([[colorscheme kanagawa-dragon]])
+-- vim.cmd([[colorscheme kanagawa-paper-ink]])
+-- vim.api.nvim_set_hl(0, "Normal", { bg = "#000000" })
+
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.numberwidth = 4

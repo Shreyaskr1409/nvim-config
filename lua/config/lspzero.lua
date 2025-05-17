@@ -1,138 +1,91 @@
-require("conform").setup({
-    formatters_by_ft = {
-    }
-})
-local cmp = require('cmp')
-local cmp_lsp = require("cmp_nvim_lsp")
-local capabilities = vim.tbl_deep_extend(
-"force",
-{},
-vim.lsp.protocol.make_client_capabilities(),
-cmp_lsp.default_capabilities())
+vim.opt.signcolumn = 'yes'
 
-require("fidget").setup({})
-require("mason").setup()
-require("mason-lspconfig").setup({
-    ensure_installed = {
-        -- There is an issue, mason-lspconfig uses lspconfig server names
-        -- these are different than lsp package names
-        "lua_ls",
-        "rust_analyzer",
-        "gopls",
-        "jdtls",
-        "ts_ls",
-        "tailwindcss",
-        "kotlin_language_server",
-        "svelte",
-        "svls"
-    },
-    handlers = {
-        function(server_name) -- default handler (optional)
-            require("lspconfig")[server_name].setup {
-                capabilities = capabilities
-            }
-        end,
+local lspconfig_defaults = require('lspconfig').util.default_config
+lspconfig_defaults.capabilities = vim.tbl_deep_extend(
+  'force',
+  lspconfig_defaults.capabilities,
+  require('cmp_nvim_lsp').default_capabilities()
+)
 
-        zls = function()
-            local lspconfig = require("lspconfig")
-            lspconfig.zls.setup({
-                root_dir = lspconfig.util.root_pattern(".git", "build.zig", "zls.json"),
-                settings = {
-                    zls = {
-                        enable_inlay_hints = true,
-                        enable_snippets = true,
-                        warn_style = true,
-                    },
-                },
-            })
-            vim.g.zig_fmt_parse_errors = 0
-            vim.g.zig_fmt_autosave = 0
+vim.api.nvim_create_autocmd('LspAttach', {
+  desc = 'LSP actions',
+  callback = function(event)
+    local opts = { buffer = event.buf }
+    local map = vim.keymap.set
 
-        end,
-        ["lua_ls"] = function()
-            local lspconfig = require("lspconfig")
-            lspconfig.lua_ls.setup {
-                capabilities = capabilities,
-                settings = {
-                    Lua = {
-                        runtime = { version = "Lua 5.1" },
-                        diagnostics = {
-                            globals = { "bit", "vim", "it", "describe", "before_each", "after_each" },
-                        }
-                    }
-                }
-            }
-        end,
-    }
+    -- Navigation
+    map('n', 'K', vim.lsp.buf.hover, opts)
+    map('n', 'gd', vim.lsp.buf.definition, opts)
+    map('n', 'gD', vim.lsp.buf.declaration, opts)
+    map('n', 'gi', vim.lsp.buf.implementation, opts)
+    map('n', 'go', vim.lsp.buf.type_definition, opts)
+    map('n', 'gr', vim.lsp.buf.references, opts)
+    
+    -- Actions
+    map('n', '<F2>', vim.lsp.buf.rename, opts)
+    map({'n', 'x'}, '<F3>', function() vim.lsp.buf.format({async = true}) end, opts)
+    map('n', '<F4>', vim.lsp.buf.code_action, opts)
+    map('n', 'gs', vim.lsp.buf.signature_help, opts)
+  end
 })
 
-local cmp_select = { behavior = cmp.SelectBehavior.Select }
+require('mason').setup()
+-- require('mason-lspconfig').setup({
+--   ensure_installed = {
+--     'lua_ls',
+--     'gopls',
+--     'ts_ls',
+--     'rust_analyzer',
+--     'jdtls',
+--     'tailwindcss',
+--     'kotlin_language_server',
+--     'svelte',
+--     'svls',
+--   }
+-- })
 
-cmp.setup({
-    snippet = {
-        expand = function(args)
-            require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-        end,
-    },
-    mapping = cmp.mapping.preset.insert({
-        ['Up'] = cmp.mapping.select_prev_item(cmp_select),
-        ['Down'] = cmp.mapping.select_next_item(cmp_select),
-        ['<Tab>'] = cmp.mapping.confirm({ select = true }),
-        ["<C-Space>"] = cmp.mapping.complete(),
-    }),
-    sources = cmp.config.sources({
-        { name = 'nvim_lsp' },
-        { name = 'luasnip' }, -- For luasnip users.
-    }, {
-        { name = 'buffer' },
-    })
-})
-
-vim.diagnostic.config({
-    -- update_in_insert = true,
-    float = {
-        focusable = false,
-        style = "minimal",
-        border = "rounded",
-        source = "always",
-        header = "",
-        prefix = "",
-    },
-})
-
-
-
--- Special configs for certain lsps
-
-vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = "*.go",
-    callback = function()
-        vim.lsp.buf.format({ async = false })
-    end,
-})
-
-require("lspconfig").gopls.setup {
-    capabilities = capabilities,
+local lspconfig = require('lspconfig')
+lspconfig.gopls.setup({
     settings = {
         gopls = {
-            gofumpt = true, -- Use gofumpt instead of gofmt
-            staticcheck = true, -- Enable static analysis
+            gofumpt = true,
+            staticcheck = true,
             analyses = {
                 unusedparams = true,
                 shadow = true,
-            },
-        },
-    },
-}
-
-
-require("lspconfig").svls.setup {
-    capabilities = capabilities,
-    settings = {
-        svls = {
-            trace = { server = "verbose" },
-            lint = { enable = true },
-            format = { enable = true }
+            }
         }
     }
-}
+})
+
+lspconfig.lua_ls.setup({
+  settings = {
+    Lua = {
+      runtime = { version = 'LuaJIT' },
+      diagnostics = {
+        globals = { 'vim', 'bit', 'describe', 'it', 'before_each', 'after_each' }
+      }
+    }
+  }
+})
+
+local cmp = require('cmp')
+local luasnip = require('luasnip')
+
+cmp.setup({
+  snippet = {
+    expand = function(args)
+      luasnip.lsp_expand(args.body)
+    end,
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-n>'] = cmp.mapping.select_next_item(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ['<C-Space>'] = cmp.mapping.complete(),
+  }),
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+  }
+})

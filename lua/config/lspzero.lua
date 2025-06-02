@@ -30,19 +30,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 require('mason').setup()
--- require('mason-lspconfig').setup({
---   ensure_installed = {
---     'lua_ls',
---     'gopls',
---     'ts_ls',
---     'rust_analyzer',
---     'jdtls',
---     'tailwindcss',
---     'kotlin_language_server',
---     'svelte',
---     'svls',
---   }
--- })
 
 local lspconfig = require('lspconfig')
 lspconfig.gopls.setup({
@@ -69,6 +56,36 @@ lspconfig.lua_ls.setup({
   }
 })
 
+lspconfig.svelte.setup({
+  on_attach = function(client, bufnr)
+    -- Optional: format on save
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      buffer = bufnr,
+      callback = function()
+        vim.lsp.buf.format({ bufnr = bufnr })
+      end,
+    })
+  end,
+})
+
+lspconfig.ts_ls.setup{}
+lspconfig.tailwindcss.setup{}
+
+lspconfig.clangd.setup{
+  cmd = {
+    "clangd",
+    "--background-index",
+    "--header-insertion=iwyu",
+    "--cross-file-rename",
+    "--clang-tidy"
+  },
+  init_options = {
+    fallbackFlags = {
+      "-IC:/Users/" .. os.getenv("USERNAME") .. "/scoop/apps/cygwin/2.934/root/usr/include"
+    }
+  }
+}
+
 local cmp = require('cmp')
 local luasnip = require('luasnip')
 
@@ -78,10 +95,14 @@ cmp.setup({
       luasnip.lsp_expand(args.body)
     end,
   },
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
+  },
   mapping = cmp.mapping.preset.insert({
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ['<C-h>'] = cmp.mapping.select_prev_item(),
+    ['<C-l>'] = cmp.mapping.select_next_item(),
+    ['<Tab>'] = cmp.mapping.confirm({ select = true }),
     ['<C-Space>'] = cmp.mapping.complete(),
   }),
   sources = {
@@ -89,3 +110,7 @@ cmp.setup({
     { name = 'luasnip' },
   }
 })
+
+cmp.config.formatting = {
+  format = require("tailwindcss-colorizer-cmp").formatter
+}

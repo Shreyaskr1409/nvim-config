@@ -7,6 +7,7 @@ vim.cmd([[colorscheme kanagawa-dragon]])
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.numberwidth = 4
+vim.opt.cursorline = true
 
 vim.opt.tabstop = 4        -- Number of spaces that a tab counts for
 vim.opt.shiftwidth = 4     -- Number of spaces to use for auto-indentation

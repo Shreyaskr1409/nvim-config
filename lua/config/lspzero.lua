@@ -81,10 +81,20 @@ lspconfig.clangd.setup{
   },
   init_options = {
     fallbackFlags = {
-      "-IC:/Users/" .. os.getenv("USERNAME") .. "/scoop/apps/cygwin/2.934/root/usr/include"
     }
   }
 }
+if vim.fn.has('win32') == 1 then
+  local username = os.getenv("USERNAME")
+  if username then -- Check if USERNAME env var exists
+    table.insert(lspconfig.clangd.init_options.fallbackFlags,
+      "-IC:/Users/" .. username .. "/scoop/apps/cygwin/2.934/root/usr/include"
+    )
+  else
+    -- Optional: print a warning if USERNAME is not found on Windows
+    print("Warning: USERNAME environment variable not found. Cygwin include path might be incomplete.")
+  end
+end
 
 local cmp = require('cmp')
 local luasnip = require('luasnip')

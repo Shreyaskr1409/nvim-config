@@ -1,6 +1,9 @@
 local M = {}
 
-vim.cmd([[colorscheme kanagawa-dragon]])
+-- vim.cmd([[colorscheme cold]])
+-- vim.cmd([[colorscheme kanagawa-dragon]])
+vim.cmd([[colorscheme rose-pine-main]])
+-- vim.cmd([[colorscheme zenbones]])
 -- vim.cmd([[colorscheme kanagawa-paper-ink]])
 -- vim.api.nvim_set_hl(0, "Normal", { bg = "#000000" })
 

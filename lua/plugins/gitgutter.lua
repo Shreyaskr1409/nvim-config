@@ -12,4 +12,5 @@ return {
         vim.api.nvim_set_keymap("n", "]c", "<Plug>(GitGutterNextHunk)", { noremap = false, silent = true })
         vim.api.nvim_set_keymap("n", "[c", "<Plug>(GitGutterPrevHunk)", { noremap = false, silent = true })
     end
+    -- 'lweis6991/gitsigns.nvim',
 }

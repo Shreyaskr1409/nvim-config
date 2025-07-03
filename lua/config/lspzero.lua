@@ -32,6 +32,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 require('mason').setup()
 
 local lspconfig = require('lspconfig')
+
 lspconfig.gopls.setup({
     settings = {
         gopls = {
@@ -44,6 +45,20 @@ lspconfig.gopls.setup({
         }
     }
 })
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = "*.go",
+    callback = function()
+        local clients = vim.lsp.get_active_clients({ bufnr = 0 })
+        for _, client in ipairs(clients) do
+            if client.name == "gopls" then
+                vim.lsp.buf.format({ async = false })
+                return
+            end
+        end
+    end,
+})
+
 
 lspconfig.lua_ls.setup({
   settings = {
@@ -71,30 +86,37 @@ lspconfig.svelte.setup({
 lspconfig.ts_ls.setup{}
 lspconfig.tailwindcss.setup{}
 
-lspconfig.clangd.setup{
+local project_root = vim.fn.getcwd()  -- Get project root
+
+lspconfig.clangd.setup({
   cmd = {
     "clangd",
     "--background-index",
     "--header-insertion=iwyu",
-    "--cross-file-rename",
-    "--clang-tidy"
+    "--clang-tidy",
+    "--query-driver=/usr/bin/gcc",  -- Tell clangd to use GCC
+    "--fallback-style=gnu",         -- Use GCC-style formatting
   },
   init_options = {
     fallbackFlags = {
-    }
-  }
-}
-if vim.fn.has('win32') == 1 then
-  local username = os.getenv("USERNAME")
-  if username then -- Check if USERNAME env var exists
-    table.insert(lspconfig.clangd.init_options.fallbackFlags,
-      "-IC:/Users/" .. username .. "/scoop/apps/cygwin/2.934/root/usr/include"
-    )
-  else
-    -- Optional: print a warning if USERNAME is not found on Windows
-    print("Warning: USERNAME environment variable not found. Cygwin include path might be incomplete.")
-  end
-end
+      -- GCC system includes (replace with your paths from `gcc -v`)
+      "-I/usr/lib/gcc/x86_64-linux-gnu/11/include",
+      "-I/usr/include/x86_64-linux-gnu",
+      "-I/usr/include",
+      "-I/usr/local/include",
+
+      -- Project-specific includes (adjust as needed)
+      "-I" .. project_root .. "/include",
+      "-I" .. project_root .. "/lib",
+      "-I" .. project_root .. "/src",
+
+      -- Library paths (if needed)
+      "-L/usr/lib",
+      "-L/usr/local/lib",
+      "-L" .. project_root .. "/lib",
+    },
+  },
+})
 
 local cmp = require('cmp')
 local luasnip = require('luasnip')
@@ -102,7 +124,7 @@ local luasnip = require('luasnip')
 cmp.setup({
   snippet = {
     expand = function(args)
-      luasnip.lsp_expand(args.body)
+      require('luasnip').lsp_expand(args.body)
     end,
   },
   window = {
@@ -112,7 +134,15 @@ cmp.setup({
   mapping = cmp.mapping.preset.insert({
     ['<C-h>'] = cmp.mapping.select_prev_item(),
     ['<C-l>'] = cmp.mapping.select_next_item(),
-    ['<Tab>'] = cmp.mapping.confirm({ select = true }),
+    ['<Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.confirm({ select = true })
+      elseif require('luasnip').expand_or_jumpable() then
+        require('luasnip').expand_or_jump()
+      else
+        fallback()
+      end
+    end, {'i', 's'}),
     ['<C-Space>'] = cmp.mapping.complete(),
   }),
   sources = {

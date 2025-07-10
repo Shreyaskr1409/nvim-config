@@ -31,19 +31,21 @@ telescope.load_extension("ui-select")
 
 -- Key mappings for Telescope
 vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
-vim.keymap.set('n', '<leader>fg', builtin.git_files, { desc = 'Telescope git files' })
+vim.keymap.set('n', '<leader>fh', builtin.git_files, { desc = 'Telescope git files' })
 vim.keymap.set('n', '<leader>fs', function()
     builtin.grep_string({ search = vim.fn.input("GREP > ") })
 end, { desc = 'Telescope grep string' })
 
 vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
-vim.keymap.set('n', '<leader>fd', builtin.lsp_document_symbols, { desc = 'Telescope document symbols' })
 vim.keymap.set('n', '<leader>fc', builtin.colorscheme, {desc = 'Telescope colorscheme'})
 
--- Optional: Alternative mappings (remove duplicates)
-vim.keymap.set('n', '<leader>fl', builtin.find_files, { desc = 'Telescope find files (alt)' })
-vim.keymap.set('n', '<leader>lg', builtin.git_files, { desc = 'Telescope git files (alt)' })
+vim.keymap.set('n', '<leader>fD', builtin.lsp_document_symbols, { desc = 'Telescope document symbols' })
+vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = 'Telescope LSP diagnostics' })
 
+vim.keymap.set('n', '<leader>fgs', builtin.git_status, { desc = 'Telescope git status' })
+vim.keymap.set('n', '<leader>fgc', builtin.git_commits, { desc = 'Telescope git commits' })
+
+vim.keymap.set('n', '<leader>fb', builtin.builtin, { desc = 'Telescope builtin' })
 
 
 

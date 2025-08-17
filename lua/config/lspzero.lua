@@ -86,6 +86,7 @@ lspconfig.svelte.setup({
 lspconfig.ts_ls.setup{}
 lspconfig.tailwindcss.setup{}
 lspconfig.sqls.setup{}
+lspconfig.pylsp.setup{}
 
 local project_root = vim.fn.getcwd()  -- Get project root
 

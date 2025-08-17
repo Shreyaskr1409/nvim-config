@@ -11,6 +11,8 @@ return {
         -- Set keybindings for hunk navigation
         vim.api.nvim_set_keymap("n", "]c", "<Plug>(GitGutterNextHunk)", { noremap = false, silent = true })
         vim.api.nvim_set_keymap("n", "[c", "<Plug>(GitGutterPrevHunk)", { noremap = false, silent = true })
+        vim.api.nvim_set_keymap("n", "<leader>gb", ":GitGutterToggle <CR>", { noremap = false, silent = true })
+        vim.cmd(':GitGutterLineHighlightsEnable')
     end
     -- 'lweis6991/gitsigns.nvim',
 }

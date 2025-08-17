@@ -7,7 +7,7 @@ return {
                 height = 0.9,
                 width = 0.9,
             },
-            cmd = 'powershell',
+            cmd = 'bash',
         })
 
         -- Example keybindings

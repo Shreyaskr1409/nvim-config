@@ -16,4 +16,17 @@ end)
 vim.keymap.set("n", "<leader>tt", vim.cmd.terminal)
 vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { noremap = true })
 
+-- Navigate left and right in Insert mode
+vim.keymap.set('i', '<C-h>', '<Left>')
+vim.keymap.set('i', '<C-l>', '<Right>')
+vim.keymap.set('i', '<C-j>', '<Down>')
+vim.keymap.set('i', '<C-k>', '<Up>')
+
+vim.keymap.set('n', '<A-s>s', '<C-w>w')
+
+vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { desc = 'Code Action (LSP)' })
+
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 return M

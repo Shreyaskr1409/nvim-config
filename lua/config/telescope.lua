@@ -45,7 +45,7 @@ vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = 'Telescope LSP d
 vim.keymap.set('n', '<leader>fgs', builtin.git_status, { desc = 'Telescope git status' })
 vim.keymap.set('n', '<leader>fgc', builtin.git_commits, { desc = 'Telescope git commits' })
 
-vim.keymap.set('n', '<leader>fb', builtin.builtin, { desc = 'Telescope builtin' })
+vim.keymap.set('n', '<leader>fB', builtin.builtin, { desc = 'Telescope builtin' })
 
 
 

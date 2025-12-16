@@ -87,6 +87,18 @@ lspconfig.ts_ls.setup{}
 lspconfig.tailwindcss.setup{}
 lspconfig.sqls.setup{}
 lspconfig.pylsp.setup{}
+lspconfig.tinymist.setup{}
+
+lspconfig.ltex.setup({
+  cmd = { "ltex-ls-plus" },
+  filetypes = { "markdown", "text", "latex" },
+  settings = {
+    ltex = {
+      language = "en",
+      additionalRules = { languageModel = "~/models/ngrams/" },
+    },
+  },
+})
 
 local project_root = vim.fn.getcwd()  -- Get project root
 
@@ -130,8 +142,14 @@ cmp.setup({
     end,
   },
   window = {
-    completion = cmp.config.window.bordered(),
-    documentation = cmp.config.window.bordered(),
+    completion = cmp.config.window.bordered({
+        max_width = 20,
+        max_height = 10,
+    }),
+    documentation = cmp.config.window.bordered({
+        max_width = 20,
+        max_height = 10,
+    }),
   },
   mapping = cmp.mapping.preset.insert({
     ['<C-h>'] = cmp.mapping.select_prev_item(),
@@ -150,6 +168,8 @@ cmp.setup({
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
+    { name = "buffer" },
+    { name = "path" },
   }
 })
 

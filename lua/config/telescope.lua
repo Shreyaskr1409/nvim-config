@@ -15,7 +15,13 @@ telescope.setup({
                 preview_width = 0.6,
             },
         },
-        file_ignore_patterns = { "node_modules", ".git/", "old_ref", "include", "lib" },
+        file_ignore_patterns = {
+            "node_modules",
+            ".git/",
+            "old_ref",
+            -- "include",
+            -- "lib",
+        },
     },
     extensions = {
         ["ui-select"] = {

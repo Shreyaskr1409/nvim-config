@@ -1,27 +1,21 @@
 local M = {}
 
--- vim.cmd([[colorscheme sakura]])
--- vim.cmd([[colorscheme cold]])
--- vim.cmd([[colorscheme gruvbox-material]])
--- vim.cmd([[colorscheme kanagawa-dragon]])
--- vim.cmd([[colorscheme kanagawa-wave]])
--- vim.cmd([[colorscheme rose-pine-main]])
--- vim.cmd([[colorscheme zenbones]])
--- vim.cmd([[colorscheme kanagawa-paper-ink]])
-
 vim.cmd([[colorscheme kanagawa-dragon]])
-vim.api.nvim_set_hl(0, "Normal", { bg = "#111111" })
-vim.api.nvim_set_hl(0, "LineNr", { fg = "#555555", bg = "#1a1a1a" })
-vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#FF5D62", bg = "#1a1a1a" })
-vim.api.nvim_set_hl(0, "CursorLine", { bg = "#1a1a1a" })
-vim.api.nvim_set_hl(0, "SignColumn", { bg = "#1a1a1a" })
+-- vim.api.nvim_set_hl(0, "Normal", { bg = "#111111" })
+-- vim.api.nvim_set_hl(0, "LineNr", { fg = "#555555", bg = "#1a1a1a" })
+-- vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#FF5D62", bg = "#1a1a1a" })
+-- vim.api.nvim_set_hl(0, "CursorLine", { bg = "#1a1a1a" })
+-- vim.api.nvim_set_hl(0, "SignColumn", { bg = "#1a1a1a" })
+-- vim.cmd.highlight('MsgArea guibg=#181616')
+
+-- vim.cmd([[colorscheme kanagawa-paper]])
 
 vim.opt.laststatus=3
--- vim.opt.showtabline=0
+vim.opt.showtabline=3
 
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.numberwidth = 4
+-- vim.opt.numberwidth = 4
 vim.opt.cursorline = true
 
 vim.opt.tabstop = 4        -- Number of spaces that a tab counts for
@@ -43,8 +37,18 @@ function ToggleTransparent()
         original_bg = vim.api.nvim_get_hl(0, { name = "Normal" }).bg
         vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
         print("Transparency ON")
+
+        vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = original_bg })
+        vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = original_bg })
+        vim.api.nvim_set_hl(0, "NeoTreeEndOfBuffer", { bg = original_bg })
+
     else
         vim.api.nvim_set_hl(0, "Normal", { bg = original_bg })
+
+        vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = original_bg })
+        vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = original_bg })
+        vim.api.nvim_set_hl(0, "NeoTreeEndOfBuffer", { bg = original_bg })
+
         print("Transparency OFF")
     end
 end

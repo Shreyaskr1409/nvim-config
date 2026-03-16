@@ -1,18 +1,23 @@
 return {
-    'airblade/vim-gitgutter',
+    'lewis6991/gitsigns.nvim',
     config = function()
-        vim.g.gitgutter_enabled = 1
-        vim.g.gitgutter_autoupdate = 1
+        require('gitsigns').setup {
+            signs = {
+                add          = { text = '▌' },
+                change       = { text = '▌' },
+                delete       = { text = '▌' },
+                topdelete    = { text = '▌' },
+                changedelete = { text = '▌' },
+            },
 
-        vim.g.gitgutter_sign_added = "+"
-        vim.g.gitgutter_sign_modified = "~"
-        vim.g.gitgutter_sign_removed = "-"
+            on_attach = function(bufnr)
+                local gs = package.loaded.gitsigns
 
-        -- Set keybindings for hunk navigation
-        vim.api.nvim_set_keymap("n", "]c", "<Plug>(GitGutterNextHunk)", { noremap = false, silent = true })
-        vim.api.nvim_set_keymap("n", "[c", "<Plug>(GitGutterPrevHunk)", { noremap = false, silent = true })
-        vim.api.nvim_set_keymap("n", "<leader>gb", ":GitGutterToggle <CR>", { noremap = false, silent = true })
-        vim.cmd(':GitGutterLineHighlightsEnable')
-    end
-    -- 'lweis6991/gitsigns.nvim',
+                vim.keymap.set('n', ']c', gs.next_hunk, { buffer = bufnr })
+                vim.keymap.set('n', '[c', gs.prev_hunk, { buffer = bufnr })
+                vim.keymap.set('n', '<leader>gb', gs.toggle_signs, { buffer = bufnr })
+            end,
+        }
+    end,
 }
+

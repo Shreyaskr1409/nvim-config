@@ -22,9 +22,9 @@ vim.keymap.set('i', '<C-l>', '<Right>')
 vim.keymap.set('i', '<C-j>', '<Down>')
 vim.keymap.set('i', '<C-k>', '<Up>')
 
-vim.keymap.set('n', '<A-s>s', '<C-w>w')
-
 vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { desc = 'Code Action (LSP)' })
+
+vim.keymap.set('n', '<A-Tab>', '<C-w>w')
 
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1

@@ -36,6 +36,7 @@ local function setupNormalClangd()
             },
         },
         root_dir = lspconfig.util.root_pattern(".git"),
+        filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "hpp", "h" },
     })
 end
 

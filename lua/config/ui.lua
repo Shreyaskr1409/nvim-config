@@ -1,12 +1,12 @@
 local M = {}
 
 vim.cmd([[colorscheme kanagawa-dragon]])
--- vim.api.nvim_set_hl(0, "Normal", { bg = "#111111" })
--- vim.api.nvim_set_hl(0, "LineNr", { fg = "#555555", bg = "#1a1a1a" })
--- vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#FF5D62", bg = "#1a1a1a" })
--- vim.api.nvim_set_hl(0, "CursorLine", { bg = "#1a1a1a" })
--- vim.api.nvim_set_hl(0, "SignColumn", { bg = "#1a1a1a" })
--- vim.cmd.highlight('MsgArea guibg=#181616')
+vim.api.nvim_set_hl(0, "Normal", { bg = "#111111" })
+vim.api.nvim_set_hl(0, "LineNr", { fg = "#555555", bg = "#1a1a1a" })
+vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#FF5D62", bg = "#1a1a1a" })
+vim.api.nvim_set_hl(0, "CursorLine", { bg = "#1a1a1a" })
+vim.api.nvim_set_hl(0, "SignColumn", { bg = "#1a1a1a" })
+vim.cmd.highlight('MsgArea guibg=#181616')
 
 -- vim.cmd([[colorscheme kanagawa-paper]])
 

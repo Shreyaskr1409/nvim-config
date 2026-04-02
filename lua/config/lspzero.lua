@@ -101,6 +101,7 @@ lspconfig.sqls.setup{}
 lspconfig.pylsp.setup{}
 lspconfig.tinymist.setup{}
 lspconfig.rust_analyzer.setup{}
+lspconfig.protols.setup{}
 
 require('lspconfig').matlab_ls.setup {
   cmd = { "matlab-language-server", "--stdio" },
